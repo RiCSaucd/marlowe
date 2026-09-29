@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --color-paper: #f3efe6;
+  --color-foam: #faf8f4;
+  --color-ink: #1c1916;
+  --color-muted: #5c564c;
+  --color-line: #e3dacb;
+  --color-brass: #8a4b22;
+  --color-brass-deep: #6e3b1a;
+
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-brass) 28%, var(--color-paper));
+    color: var(--color-ink);
+  }
+}
+
+@keyframes marlowe-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-brass) 40%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 14px color-mix(in oklab, var(--color-brass) 0%, transparent);
+  }
+}
+
+.marlowe-pulse {
+  animation: marlowe-pulse 1.5s ease-out infinite;
+}
+
+.sheet {
+  box-shadow: 0 24px 60px -36px var(--color-ink);
+}
+
+.bezel-line {
+  border-color: color-mix(in oklab, var(--color-foam) 16%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marlowe-pulse {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
