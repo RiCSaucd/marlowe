@@ -18,6 +18,23 @@ Marlowe does not relicense those projects. Wispr Flow is their trademark. This p
 
 The preview transcribes with a cloud speech model when `XAI_API_KEY` is set, then runs a writing pass. Without that key, local cleanup still strips fillers and fixes capitalization. The Mac and Windows builds described on the site are the planned native shells. They are not binaries in this repo.
 
+## Apple App Store and Google Play
+
+The store projects are in this repository. They are not submitted yet.
+
+| Store | Project | Id |
+|---|---|---|
+| App Store | [ios/](ios/) | `com.ricsaucd.marlowe` |
+| Play Store | [android/](android/) | `com.ricsaucd.marlowe` |
+
+The phone app is the dictation keyboard. It asks for the microphone. Cloud polish still needs a hosted `XAI_API_KEY` backend. On the phone, speech that the WebView recognizes is cleaned up on the device when that backend is absent.
+
+```sh
+npm run mobile:sync
+```
+
+Then open `ios/App/App.xcodeproj` in Xcode, set your team, and archive for App Store Connect. Open `android/` in Android Studio and build a signed app bundle for Play Console. Both stores also want a privacy policy URL before the listing can go live.
+
 ## Run
 
 ```sh

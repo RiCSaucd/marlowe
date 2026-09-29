@@ -67,7 +67,7 @@ const COMPARE = [
   },
   {
     label: "Where",
-    marlowe: "Mac, Windows, and this browser",
+    marlowe: "iPhone, Android, Mac, Windows, and this browser",
     wispr: "Mac, Windows, and iPhone",
   },
   {
@@ -344,6 +344,16 @@ curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall`}</pre>
                   <span>Tray</span>
                 </div>
               </article>
+            </div>
+            <div id="stores" className="mt-8 rounded-card border border-line bg-foam p-4 sm:p-5">
+              <p className="text-sm font-medium">App Store and Play Store</p>
+              <p className="mt-2 text-sm text-muted">
+                The iPhone project is <span className="text-ink">ios/</span> and the Android project is{" "}
+                <span className="text-ink">android/</span>, both bundle id{" "}
+                <span className="text-ink">com.ricsaucd.marlowe</span>. They are in the open source repo and are not
+                listed in either store yet. Submitting them needs an Apple Developer account and a Google Play Console
+                account.
+              </p>
             </div>
           </div>
         </section>

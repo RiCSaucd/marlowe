@@ -10,4 +10,14 @@ dist
 artifacts
 screenshots
 .grok
+.project_id
 coverage
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+android/capacitor-cordova-android-plugins/build
+ios/App/Pods
+ios/App/build
+ios/DerivedData
+*.xcuserstate
