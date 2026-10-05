@@ -47,6 +47,14 @@ const STACK = [
     license: "AGPL-3.0",
     role: "The transcription workspace this page uses: dictate or upload, raw and refined text kept apart, newest-first history of 200, timings, copy, export, and handoff into the keyboard. Their Electron app is the local desktop. Marlowe does not relicense it.",
   },
+  {
+    n: "06",
+    name: "OpenWhispr",
+    repo: "OpenWhispr/openwhispr",
+    href: "https://github.com/OpenWhispr/openwhispr",
+    license: "MIT",
+    role: "The 2026 dictation app closest to this one: hotkey, local Whisper, Parakeet, and Nemotron behind one picker. Marlowe follows that lineup in original code. It does not ship their Electron app.",
+  },
 ] as const;
 
 const COMPARE = [
@@ -72,7 +80,7 @@ const COMPARE = [
   },
   {
     label: "Engine",
-    marlowe: "Open Whisper on the desktop apps. Cloud speech in this preview.",
+    marlowe: "Grok Voice in this preview, then Grok 4.7. Whisper, Parakeet, or Nemotron on the desktop apps.",
     wispr: "Proprietary cloud",
   },
   {
@@ -216,11 +224,10 @@ function Home() {
 
         <section id="stack" className="border-t border-line bg-foam">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-            <h2 className="font-display text-3xl font-medium sm:text-4xl">Five open-source projects, one keyboard</h2>
+            <h2 className="font-display text-3xl font-medium sm:text-4xl">Six open-source projects, one keyboard</h2>
             <p className="mt-3 max-w-2xl text-muted">
               Marlowe does not pretend to have invented speech recognition. Handy is the push-to-talk shell, Whisper is
-              the accuracy target, and VoiceStudio is the transcription workspace — dictate, upload, history, and
-              handoff.
+              the accuracy target, OpenWhispr is the local-model lineup, and VoiceStudio is the transcription workspace.
             </p>
             <ol className="mt-6 flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:items-center">
               <li className="rounded-full border border-line bg-paper px-3 py-2">You speak</li>
@@ -228,12 +235,12 @@ function Home() {
                 →
               </li>
               <li className="rounded-full border border-line bg-paper px-3 py-2">
-                whisper.cpp or faster-whisper
+                whisper.cpp, Parakeet, or Nemotron
               </li>
               <li className="hidden text-muted sm:block" aria-hidden="true">
                 →
               </li>
-              <li className="rounded-full border border-line bg-paper px-3 py-2">Writing pass</li>
+              <li className="rounded-full border border-line bg-paper px-3 py-2">Grok 4.7</li>
               <li className="hidden text-muted sm:block" aria-hidden="true">
                 →
               </li>
@@ -261,11 +268,11 @@ function Home() {
               ))}
             </div>
             <p className="mt-6 max-w-3xl text-sm text-muted">
-              Whisper, whisper.cpp, faster-whisper, and Handy stay MIT. VoiceStudio is AGPL-3.0: Marlowe links it and
-              follows its transcription workflow in original code. It does not ship their Electron binary or relicense
-              their source. The writing pass — filler stripped, tone matched, names kept — is the part priced at four
-              dollars. In this browser the speech step is cloud, because those local engines are multi-gigabyte
-              downloads.
+              Whisper, whisper.cpp, faster-whisper, Handy, and OpenWhispr stay MIT. VoiceStudio is AGPL-3.0: Marlowe
+              links it and follows its transcription workflow in original code. It does not ship their Electron binary
+              or relicense their source. The writing pass — Grok 4.7, filler stripped, tone matched, names kept — is
+              the part priced at four dollars. In this browser the speech step is Grok Voice Transcribe, because those
+              local engines are multi-gigabyte downloads.
             </p>
           </div>
         </section>

@@ -37,31 +37,45 @@ function tidySpaces(text: string): string {
     .trim();
 }
 
+function collapseRepeats(text: string): string {
+  return text.replace(/\b([A-Za-z']{1,32})(?:\s+\1\b)+/gi, "$1");
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Prefer the dictionary spelling when the recognizer heard the same word. */
+export function applyTerms(text: string, terms: readonly string[]): string {
+  let next = text;
+  for (const term of terms) {
+    const clean = term.trim();
+    if (!clean) continue;
+    next = next.replace(new RegExp(`\\b${escapeRegExp(clean)}\\b`, "gi"), clean);
+  }
+  return next;
+}
+
 function capitalizeSentence(text: string): string {
   return text.replace(/(^|[.!?]\s+)([a-z])/g, (_, lead: string, ch: string) => lead + ch.toUpperCase());
 }
 
-export function lightClean(raw: string, mode: Mode): string {
-  let text = raw.replace(FILLER, " ");
+export function lightClean(raw: string, mode: Mode, terms: readonly string[] = []): string {
+  let text = collapseRepeats(raw.replace(FILLER, " "));
   text = tidySpaces(text);
   if (!text) return "";
   text = capitalizeSentence(text);
   if (mode === "literal") {
     if (!/[.!?]$/.test(text)) text += ".";
-    return text;
+    return applyTerms(text, terms);
   }
   if (mode === "code") {
     const sentence = text.endsWith(".") ? text : `${text}.`;
-    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+    text = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+    return applyTerms(text, terms);
   }
   if (!/[.!?]$/.test(text)) text += ".";
-  if (mode === "message") {
-    return text;
-  }
-  if (mode === "email") {
-    return text;
-  }
-  return text;
+  return applyTerms(text, terms);
 }
 
 export function modeGuide(mode: Mode): string {

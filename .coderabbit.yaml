@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+reviews:
+  profile: assertive
+  high_level_summary: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "src/lib/dictate.functions.ts"
+      instructions: "The writing model must stay grok-4.7. Do not claim Whisper, Parakeet, or Nemotron ran inside the browser preview."
+    - path: "src/lib/cleanup.ts"
+      instructions: "Cleanup may remove fillers, stutters, and fix dictionary spellings. It must not invent facts the speaker did not say."
+    - path: "src/lib/engines.ts"
+      instructions: "Desktop engine names are targets, not proof those weights are bundled. Keep the preview speech model separate from the local list."

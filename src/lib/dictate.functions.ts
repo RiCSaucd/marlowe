@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { lightClean, modeGuide, MODES, type Mode } from "@/lib/cleanup";
+import { WRITING_MODEL } from "@/lib/engines";
 
 type Segment = { text: string; start: number; end: number };
 
@@ -72,7 +73,7 @@ async function rewrite(raw: string, mode: Mode, keyterms: string[], apiKey: stri
     },
     signal: AbortSignal.timeout(22000),
     body: JSON.stringify({
-      model: "grok-4.5",
+      model: WRITING_MODEL,
       temperature: 0.2,
       max_tokens: 500,
       messages: [
@@ -120,7 +121,7 @@ export const polishSpeech = createServerFn({ method: "POST" })
       return {
         ok: true,
         raw: data.text,
-        polished: lightClean(data.text, data.mode),
+        polished: lightClean(data.text, data.mode, data.keyterms),
         engine: "local",
         language: "",
         duration: 0,
@@ -145,7 +146,7 @@ export const polishSpeech = createServerFn({ method: "POST" })
       return {
         ok: true,
         raw: data.text,
-        polished: lightClean(data.text, data.mode),
+        polished: lightClean(data.text, data.mode, data.keyterms),
         engine: "local",
         language: "",
         duration: 0,
@@ -246,7 +247,7 @@ export const dictate = createServerFn({ method: "POST" })
       try {
         polished = await rewrite(raw, data.mode, data.keyterms, apiKey);
       } catch (error) {
-        polished = lightClean(raw, data.mode);
+        polished = lightClean(raw, data.mode, data.keyterms);
         note = error instanceof Error ? error.message : "Writing pass failed";
       }
       return {

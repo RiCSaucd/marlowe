@@ -15,6 +15,7 @@ import {
 } from "@/lib/cleanup";
 import { dictate, polishSpeech } from "@/lib/dictate.functions";
 import { useMarlowe, type Docs } from "@/lib/store";
+import { DESKTOP_ENGINES, SPEECH_MODEL, WRITING_MODEL } from "@/lib/engines";
 import { blobToBase64, useRecorder } from "@/lib/use-recorder";
 
 const CLOUD_CAP = 6;
@@ -408,7 +409,7 @@ export function Studio() {
               </button>
             ) : null}
             <span className="text-sm text-muted">
-              {result.engine === "cloud" ? "Cloud writing pass" : "On-device cleanup"}
+              {result.engine === "cloud" ? "Grok 4.7" : "On-device cleanup"}
               {result.note ? ` · ${result.note}` : ""}
             </span>
           </div>
@@ -437,7 +438,7 @@ export function Studio() {
             <Waveform analyser={recorder.analyser} active={recording} />
             <p className="text-sm text-muted tabular-nums">
               {working
-                ? "Transcribing, then the writing pass…"
+                ? "Transcribing, then Grok 4.7…"
                 : recording
                   ? recorder.interim || `Listening · ${recorder.seconds.toFixed(1)}s`
                   : "Hold the button, or Ctrl + Space. A short tap locks until you tap again."}
@@ -551,9 +552,18 @@ export function Studio() {
         </div>
 
         <p className="mt-4 text-sm text-muted">
-          This preview transcribes with a cloud speech model, then runs the Marlowe writing pass. The Mac and Windows
-          apps can run the same pass on Whisper, on the machine.
+          This preview hears you with {SPEECH_MODEL}, then rewrites with {WRITING_MODEL}. It does not download Whisper.
+          A desktop build can swap the speech step for one of these, the same local set OpenWhispr ships:
         </p>
+        <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+          {DESKTOP_ENGINES.map((engine) => (
+            <li key={engine.id} className="rounded-xl border border-line bg-paper px-3 py-3">
+              <p className="text-sm font-medium">{engine.name}</p>
+              <p className="text-sm text-muted">{engine.runtime}</p>
+              <p className="mt-1 text-sm text-muted">{engine.note}</p>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {history.length > 0 ? (
