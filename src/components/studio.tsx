@@ -15,7 +15,7 @@ import {
 } from "@/lib/cleanup";
 import { dictate, polishSpeech } from "@/lib/dictate.functions";
 import { useMarlowe, type Docs } from "@/lib/store";
-import { DESKTOP_ENGINES, SPEECH_MODEL, WRITING_MODEL } from "@/lib/engines";
+import { DESKTOP_ENGINES, SPEECH_MODEL, WRITING_MODEL, engineById } from "@/lib/engines";
 import { blobToBase64, useRecorder } from "@/lib/use-recorder";
 
 const CLOUD_CAP = 6;
@@ -61,12 +61,14 @@ export function Studio() {
   const target = useMarlowe((s) => s.target);
   const mode = useMarlowe((s) => s.mode);
   const language = useMarlowe((s) => s.language);
+  const speechEngine = useMarlowe((s) => s.speechEngine);
   const dictionary = useMarlowe((s) => s.dictionary);
   const docs = useMarlowe((s) => s.docs);
   const history = useMarlowe((s) => s.history);
   const setTarget = useMarlowe((s) => s.setTarget);
   const setMode = useMarlowe((s) => s.setMode);
   const setLanguage = useMarlowe((s) => s.setLanguage);
+  const setSpeechEngine = useMarlowe((s) => s.setSpeechEngine);
   const addTerm = useMarlowe((s) => s.addTerm);
   const removeTerm = useMarlowe((s) => s.removeTerm);
   const setDoc = useMarlowe((s) => s.setDoc);
@@ -552,18 +554,32 @@ export function Studio() {
         </div>
 
         <p className="mt-4 text-sm text-muted">
-          This preview hears you with {SPEECH_MODEL}, then rewrites with {WRITING_MODEL}. It does not download Whisper.
-          A desktop build can swap the speech step for one of these, the same local set OpenWhispr ships:
+          This preview hears you with {SPEECH_MODEL}, then rewrites with {WRITING_MODEL}. The choice below is saved for
+          the desktop app. These weights are not downloaded here.
         </p>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-3">
-          {DESKTOP_ENGINES.map((engine) => (
-            <li key={engine.id} className="rounded-xl border border-line bg-paper px-3 py-3">
-              <p className="text-sm font-medium">{engine.name}</p>
-              <p className="text-sm text-muted">{engine.runtime}</p>
-              <p className="mt-1 text-sm text-muted">{engine.note}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Desktop speech engine">
+          {DESKTOP_ENGINES.map((engine) => {
+            const selected = engineById(speechEngine).id === engine.id;
+            return (
+              <button
+                key={engine.id}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                onClick={() => setSpeechEngine(engine.id)}
+                className={
+                  selected
+                    ? "rounded-xl border border-ink bg-paper px-3 py-3 text-left"
+                    : "rounded-xl border border-line bg-paper px-3 py-3 text-left"
+                }
+              >
+                <p className="text-sm font-medium">{engine.name}</p>
+                <p className="text-sm text-muted">{engine.runtime}</p>
+                <p className="mt-1 text-sm text-muted">{engine.when}</p>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {history.length > 0 ? (

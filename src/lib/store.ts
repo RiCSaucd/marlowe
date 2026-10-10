@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Mode, Target } from "@/lib/cleanup";
+import { DEFAULT_ENGINE, type EngineId, engineById } from "@/lib/engines";
 
 export type Segment = { text: string; start: number; end: number };
 
@@ -41,6 +42,7 @@ type MarloweState = {
   target: Target;
   mode: Mode;
   language: string;
+  speechEngine: EngineId;
   dictionary: string[];
   history: HistoryItem[];
   transcripts: Transcript[];
@@ -50,6 +52,7 @@ type MarloweState = {
   setTarget: (target: Target) => void;
   setMode: (mode: Mode) => void;
   setLanguage: (language: string) => void;
+  setSpeechEngine: (id: EngineId) => void;
   addTerm: (term: string) => void;
   removeTerm: (term: string) => void;
   setDoc: (key: keyof Docs, value: string) => void;
@@ -75,6 +78,7 @@ export const useMarlowe = create<MarloweState>()(
       target: "message",
       mode: "message",
       language: "en",
+      speechEngine: DEFAULT_ENGINE,
       dictionary: [],
       history: [],
       transcripts: [],
@@ -84,6 +88,7 @@ export const useMarlowe = create<MarloweState>()(
       setTarget: (target) => set({ target }),
       setMode: (mode) => set({ mode }),
       setLanguage: (language) => set({ language }),
+      setSpeechEngine: (id) => set({ speechEngine: engineById(id).id }),
       addTerm: (term) =>
         set((state) => {
           const clean = term.trim().replace(/\s+/g, " ");
@@ -111,6 +116,7 @@ export const useMarlowe = create<MarloweState>()(
         target: state.target,
         mode: state.mode,
         language: state.language,
+        speechEngine: state.speechEngine,
         dictionary: state.dictionary,
         history: state.history,
         transcripts: state.transcripts,

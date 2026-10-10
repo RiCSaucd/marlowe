@@ -80,7 +80,7 @@ const COMPARE = [
   },
   {
     label: "Engine",
-    marlowe: "Grok Voice in this preview, then Grok 4.7. Whisper, Parakeet, or Nemotron on the desktop apps.",
+    marlowe: "Parakeet on the desktop for hold-to-talk. Granite or Cohere when accuracy matters more. Whisper for ~99 languages. Nemotron to stream. Qwen3-ASR for Mandarin. Grok Voice, then Grok 4.7, in this preview.",
     wispr: "Proprietary cloud",
   },
   {
@@ -235,7 +235,7 @@ function Home() {
                 →
               </li>
               <li className="rounded-full border border-line bg-paper px-3 py-2">
-                whisper.cpp, Parakeet, or Nemotron
+                Parakeet, or the model that fits the job
               </li>
               <li className="hidden text-muted sm:block" aria-hidden="true">
                 →
